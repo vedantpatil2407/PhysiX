@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PHYSIX | Interactive Physics Visualizer & Curriculum Hub</title>
+  <meta name="description" content="Master Class 11, Class 12, JEE, and NEET Physics through interactive celestial orbits, real-time wave/optics/projectile simulations, live formula calculators, and diagnostic quizzes." />
+
+  <!-- Preconnect to Google Fonts & CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- KaTeX CSS for Mathematical Formula Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous" />
+
+  <!-- PHYSIX Modular Design System -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <!-- =========================================================================
+       Inline SVG Sprite Repository
+       ========================================================================= -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <!-- PHYSIX Scientific Orbit Logo -->
+    <symbol id="icon-physix-logo" viewBox="0 0 40 40">
+      <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="#35D39A" stroke-width="2" transform="rotate(-30 20 20)" stroke-dasharray="2 3"/>
+      <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="#D6B878" stroke-width="1.8" transform="rotate(30 20 20)"/>
+      <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="#29372E" stroke-width="1.5" transform="rotate(90 20 20)"/>
+      <circle cx="20" cy="20" r="5" fill="#35D39A" filter="drop-shadow(0 0 6px #35D39A)"/>
+      <circle cx="20" cy="20" r="2.5" fill="#090B0A"/>
+      <circle cx="34" cy="14" r="2" fill="#D6B878"/>
+      <circle cx="6" cy="26" r="1.5" fill="#35D39A"/>
+    </symbol>
+
+    <!-- Search Icon -->
+    <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </symbol>
+
+    <!-- Close / X Icon -->
+    <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </symbol>
+
+    <!-- Menu / Hamburger -->
+    <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </symbol>
+
+    <!-- Arrow Right -->
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <polyline points="12 5 19 12 12 19"></polyline>
+    </symbol>
+
+    <!-- External Link / Launch -->
+    <symbol id="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </symbol>
+
+    <!-- Class 11 Mechanics / Pendulum -->
+    <symbol id="icon-class11" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="8" r="4" fill="#35D39A"/>
+      <line x1="32" y1="8" x2="48" y2="44" stroke="#A2B0A5" stroke-width="2" stroke-dasharray="3 3"/>
+      <line x1="32" y1="8" x2="32" y2="52" stroke="#29372E" stroke-width="2"/>
+      <circle cx="48" cy="44" r="9" fill="#16211B" stroke="#35D39A" stroke-width="3"/>
+      <path d="M20 54 C 28 58, 36 58, 48 54" stroke="#D6B878" stroke-width="1.5" stroke-dasharray="2 2"/>
+      <circle cx="32" cy="52" r="3" fill="#29372E"/>
+    </symbol>
+
+    <!-- Class 12 Electromagnetism / Atom -->
+    <symbol id="icon-class12" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="8" fill="#35D39A" fill-opacity="0.2" stroke="#35D39A" stroke-width="2"/>
+      <circle cx="32" cy="32" r="3" fill="#35D39A"/>
+      <ellipse cx="32" cy="32" rx="26" ry="10" stroke="#D6B878" stroke-width="1.5" transform="rotate(-30 32 32)"/>
+      <ellipse cx="32" cy="32" rx="26" ry="10" stroke="#35D39A" stroke-width="1.5" stroke-dasharray="3 2" transform="rotate(30 32 32)"/>
+      <circle cx="52" cy="20" r="2.5" fill="#D6B878"/>
+      <circle cx="12" cy="44" r="2.5" fill="#35D39A"/>
+    </symbol>
+
+    <!-- Target / JEE Practice -->
+    <symbol id="icon-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <circle cx="12" cy="12" r="6"></circle>
+      <circle cx="12" cy="12" r="2"></circle>
+    </symbol>
+
+    <!-- Stethoscope / NEET Practice -->
+    <symbol id="icon-neet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.5 3v5a4 4 0 0 0 8 0V3"></path>
+      <path d="M12.5 8a4 4 0 0 0 8 0V3"></path>
+      <path d="M8.5 12v3a5 5 0 0 0 10 0v-1"></path>
+      <circle cx="18.5" cy="14" r="2"></circle>
+    </symbol>
+
+    <!-- Lightning / Quiz -->
+    <symbol id="icon-lightning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+    </symbol>
+  </svg>
+
+  <!-- =========================================================================
+       Navigation Header
+       ========================================================================= -->
+  <header class="navbar" role="banner">
+    <div class="container navbar-inner">
+      <!-- Brand Logo -->
+      <a href="#hero" class="brand-logo" aria-label="PHYSIX Home">
+        <div class="brand-logo-icon">
+          <svg><use href="#icon-physix-logo"></use></svg>
+        </div>
+        <div class="brand-name">
+          <span>PHYSI</span><span class="accent">X</span>
+        </div>
+        <span class="brand-badge">PROTOTYPE</span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-menu" role="navigation" aria-label="Primary Navigation">
+        <a href="#hero" class="nav-link active" data-i18n="nav_home">Home</a>
+        <a href="#coursesSection" class="nav-link" data-i18n="nav_library">Physics Library</a>
+        <a href="#simulationsSection" class="nav-link" data-i18n="nav_simulations">Simulations</a>
+        <a href="#formulaHubSection" class="nav-link" data-i18n="nav_formula_hub">Formula Hub</a>
+        <a href="#practiceSection" class="nav-link" data-i18n="nav_practice">Practice Zone</a>
+      </nav>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <!-- Bilingual Language Selector -->
+        <div class="lang-selector" role="group" aria-label="Language Selector">
+          <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+          <button class="lang-btn" data-lang="hi" aria-pressed="false">HI</button>
+        </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-toggle" id="mobileToggleBtn" aria-label="Toggle navigation drawer">
+          <svg><use href="#icon-menu"></use></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       Mobile Drawer Navigation
+       ========================================================================= -->
+  <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation Drawer">
+    <div class="mobile-drawer-header">
+      <div class="brand-logo">
+        <div class="brand-logo-icon">
+          <svg><use href="#icon-physix-logo"></use></svg>
+        </div>
+        <div class="brand-name">
+          <span>PHYSI</span><span class="accent">X</span>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="mobileDrawerClose" aria-label="Close navigation drawer">
+        <svg style="width: 18px; height: 18px;"><use href="#icon-close"></use></svg>
+      </button>
+    </div>
+
+    <nav class="mobile-nav-links">
+      <a href="#hero" class="mobile-nav-link active" data-i18n="nav_home">Home</a>
+      <a href="#coursesSection" class="mobile-nav-link" data-i18n="nav_library">Physics Library</a>
+      <a href="#simulationsSection" class="mobile-nav-link" data-i18n="nav_simulations">Simulations</a>
+      <a href="#formulaHubSection" class="mobile-nav-link" data-i18n="nav_formula_hub">Formula Hub</a>
+      <a href="#practiceSection" class="mobile-nav-link" data-i18n="nav_practice">Practice Zone</a>
+    </nav>
+
+    <div class="mobile-drawer-footer">
+      <div class="lang-selector" style="width: 100%; justify-content: center;">
+        <button class="lang-btn active" data-lang="en" style="flex: 1; text-align: center;">English</button>
+        <button class="lang-btn" data-lang="hi" style="flex: 1; text-align: center;">हिंदी</button>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">
+        PHYSIX Class 11, 12, JEE & NEET Digital Lab
+      </p>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       Hero Section: Cinematic Space Visual & Live Orbit
+       ========================================================================= -->
+  <section class="hero-section" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <!-- Hero Left Column: Editorial & Search -->
+        <div class="hero-content">
+          <div class="hero-pill">
+            <span class="hero-pill-dot"></span>
+            <span data-i18n="hero_tag">Interactive Physics Platform</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span data-i18n="hero_title_1">PHYSICS,</span><br />
+            <span class="gradient-text" data-i18n="hero_title_2">VISUALIZED.</span>
+          </h1>
+
+          <p class="hero-description" data-i18n="hero_desc">
+            Go beyond memorization. Explore the laws of the universe through interactive experiments, visual explanations, and smarter practice.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="heroBtnExplore">
+              <span data-i18n="hero_cta_explore">Explore Physics</span>
+              <svg style="width: 18px; height: 18px;"><use href="#icon-arrow-right"></use></svg>
+            </button>
+            <button class="btn btn-secondary" id="heroBtnSimLab">
+              <span data-i18n="hero_cta_sims">Enter Simulation Lab</span>
+              <svg style="width: 18px; height: 18px;"><use href="#icon-launch"></use></svg>
+            </button>
+          </div>
+
+          <!-- Hero Search Bar -->
+          <div class="hero-search-container">
+            <div class="search-wrapper">
+              <div class="search-input-box">
+                <svg class="search-icon"><use href="#icon-search"></use></svg>
+                <input
+                  type="text"
+                  id="heroSearchInput"
+                  placeholder="Search concepts, formulas, or chapters..."
+                  data-i18n-placeholder="hero_search_placeholder"
+                  autocomplete="off"
+                  aria-label="Search physics concepts"
+                />
+                <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear Search">
+                  <svg style="width: 14px; height: 14px;"><use href="#icon-close"></use></svg>
+                </button>
+              </div>
+
+              <!-- Live Dropdown Results -->
+              <div class="search-dropdown" id="searchResultsDropdown">
+                <div class="search-filters-bar">
+                  <button class="filter-chip active" data-filter="All">All</button>
+                  <button class="filter-chip" data-filter="Simulation">Simulations</button>
+                  <button class="filter-chip" data-filter="Formula">Formulas</button>
+                  <button class="filter-chip" data-filter="Chapter">Chapters</button>
+                  <button class="filter-chip" data-filter="Practice">Practice</button>
+                </div>
+                <div class="search-results-list" id="searchResultsList"></div>
+              </div>
+            </div>
+
+            <!-- Popular Quick Topics -->
+            <div class="hero-quick-topics">
+              <span data-i18n="hero_popular">Popular:</span>
+              <span class="quick-topic-tag" data-search="Projectile">Projectile</span>
+              <span class="quick-topic-tag" data-search="Optics">Optics</span>
+              <span class="quick-topic-tag" data-search="Circuits">Circuits</span>
+              <span class="quick-topic-tag" data-search="Photoelectric">Photoelectric</span>
+              <span class="quick-topic-tag" data-search="Gravitation">Gravitation</span>
+              <span class="quick-topic-tag" data-search="Kinematics">Kinematics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Column: Celestial Canvas & Scientific HUD -->
+        <div class="hero-visual-wrapper">
+          <canvas id="celestialCanvas" aria-label="Interactive Planetary Orbit Simulation"></canvas>
+
+          <!-- Top-Left Orbital Velocity HUD -->
+          <div class="hud-card hud-top-left">
+            <div class="hud-title" data-i18n="hud_orbital_speed">Orbital Velocity</div>
+            <div class="hud-value"><span class="hud-indicator"></span> 7.82 km/s</div>
+          </div>
+
+          <!-- Bottom-Right Kepler HUD -->
+          <div class="hud-card hud-bottom-right">
+            <div class="hud-title" data-i18n="hud_kepler">Kepler's Law Active</div>
+            <div class="hud-value">
+              <span class="hud-indicator"></span>
+              <span data-i18n="hud_eccentricity">Eccentricity e = 0.38</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       Curriculum Pathways Section (Class 11 & Class 12)
+       ========================================================================= -->
+  <section class="section" id="coursesSection" style="padding: var(--space-4xl) 0;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="courses_tag">Curriculum Pathways</span>
+        <h2 class="section-title" data-i18n="courses_title">Your Physics Journey</h2>
+        <p class="section-subtitle" data-i18n="courses_subtitle">
+          Structured syllabus pathways crafted for Class 11, Class 12, JEE, and NEET excellence.
+        </p>
+      </div>
+
+      <div class="courses-grid">
+        <!-- Class 11 Syllabus Card -->
+        <div class="course-card">
+          <div class="course-top">
+            <div class="course-icon-badge">
+              <div class="course-icon">
+                <svg viewBox="0 0 64 64" style="width: 48px; height: 48px;"><use href="#icon-class11"></use></svg>
+              </div>
+              <span class="badge badge-emerald" data-i18n="class11_badge">Foundation & Mechanics</span>
+            </div>
+            <h3 class="course-title" data-i18n="class11_title">Class 11 Physics</h3>
+            <p class="course-desc" data-i18n="class11_desc">
+              Master classical mechanics, thermodynamic systems, oscillations, and mechanical properties of bulk matter.
+            </p>
+
+            <div class="course-meta-row" style="margin-top: 16px; margin-bottom: 20px;">
+              <span class="course-count"><strong>28</strong> <span data-i18n="topics_available">topics available</span></span>
+              <span class="badge badge-neutral">NCERT Class XI</span>
+            </div>
+
+            <!-- Chapters Preview Tags -->
+            <div class="course-preview-tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+              <span class="badge badge-neutral">Mechanics (8)</span>
+              <span class="badge badge-neutral">Thermodynamics (5)</span>
+              <span class="badge badge-neutral">Oscillations & Waves (6)</span>
+              <span class="badge badge-neutral">Gravitation (4)</span>
+              <span class="badge badge-neutral">Properties of Matter (5)</span>
+            </div>
+          </div>
+
+          <div class="course-actions">
+            <button class="btn btn-secondary w-full" data-course-class="class11" style="width: 100%;">
+              <span data-i18n="btn_explore_chapters">Explore Chapters</span>
+              <svg style="width: 16px; height: 16px;"><use href="#icon-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Class 12 Syllabus Card -->
+        <div class="course-card">
+          <div class="course-top">
+            <div class="course-icon-badge">
+              <div class="course-icon">
+                <svg viewBox="0 0 64 64" style="width: 48px; height: 48px;"><use href="#icon-class12"></use></svg>
+              </div>
+              <span class="badge badge-gold" data-i18n="class12_badge">Electromagnetism & Quantum</span>
+            </div>
+            <h3 class="course-title" data-i18n="class12_title">Class 12 Physics</h3>
+            <p class="course-desc" data-i18n="class12_desc">
+              Explore electrostatic fields, electrodynamics, wave and ray optics, and modern quantum physics.
+            </p>
+
+            <div class="course-meta-row" style="margin-top: 16px; margin-bottom: 20px;">
+              <span class="course-count"><strong>35</strong> <span data-i18n="topics_available">topics available</span></span>
+              <span class="badge badge-neutral">NCERT Class XII</span>
+            </div>
+
+            <!-- Chapters Preview Tags -->
+            <div class="course-preview-tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+              <span class="badge badge-neutral">Electrostatics (6)</span>
+              <span class="badge badge-neutral">Current Electricity (5)</span>
+              <span class="badge badge-neutral">Magnetism (6)</span>
+              <span class="badge badge-neutral">EMI & AC (5)</span>
+              <span class="badge badge-neutral">Optics (7)</span>
+              <span class="badge badge-neutral">Modern Physics (6)</span>
+            </div>
+          </div>
+
+          <div class="course-actions">
+            <button class="btn btn-secondary w-full" data-course-class="class12" style="width: 100%;">
+              <span data-i18n="btn_explore_chapters">Explore Chapters</span>
+              <svg style="width: 16px; height: 16px;"><use href="#icon-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       Simulation Lab Section (Interactive Experiments)
+       ========================================================================= -->
+  <section class="section" id="simulationsSection" style="padding: var(--space-4xl) 0; background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="sims_tag">Interactive Experimentation</span>
+        <h2 class="section-title" data-i18n="sims_title">See Physics in Action</h2>
+        <p class="section-subtitle" data-i18n="sims_subtitle">
+          Manipulate physical variables in real time and watch the mathematical laws of nature unfold before your eyes.
+        </p>
+      </div>
+
+      <div class="simulations-grid">
+        <!-- Simulation 1: Projectile Motion -->
+        <div class="simulation-card">
+          <div class="sim-preview-box">
+            <svg viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="180" fill="#101A15"/>
+              <line x1="20" y1="150" x2="280" y2="150" stroke="#29372E" stroke-width="2"/>
+              <line x1="20" y1="20" x2="20" y2="150" stroke="#29372E" stroke-width="2"/>
+              <path d="M 30 150 Q 140 10 250 150" stroke="#35D39A" stroke-width="2.5" stroke-dasharray="4 4" fill="none"/>
+              <circle cx="30" cy="150" r="6" fill="#35D39A"/>
+              <circle cx="140" cy="45" r="7" fill="#D6B878"/>
+              <line x1="140" y1="45" x2="190" y2="45" stroke="#35D39A" stroke-width="2"/>
+              <polygon points="192,45 186,42 186,48" fill="#35D39A"/>
+              <text x="148" y="38" fill="#F3F2EC" font-size="11" font-family="sans-serif">vx = v₀ cos θ</text>
+              <text x="130" y="80" fill="#A2B0A5" font-size="10" font-family="sans-serif">H_max = 52.3 m</text>
+            </svg>
+          </div>
+          <div class="sim-body">
+            <div class="sim-badge-row">
+              <span class="badge badge-emerald">Class 11</span>
+              <span class="badge badge-neutral">Mechanics</span>
+            </div>
+            <h3 class="sim-title" data-i18n="sim_projectile_title">Projectile Motion</h3>
+            <p class="sim-desc" data-i18n="sim_projectile_desc">
+              Launch objects with adjustable velocity, angle, and gravity. Observe parabolic trajectories, range, and apex telemetry.
+            </p>
+            <button class="btn btn-secondary sim-btn" data-sim-trigger="projectile-motion">
+              <span data-i18n="btn_explore_sim">Explore Simulation</span>
+              <svg style="width: 14px; height: 14px;"><use href="#icon-launch"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulation 2: Ray Optics -->
+        <div class="simulation-card">
+          <div class="sim-preview-box">
+            <svg viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="180" fill="#101A15"/>
+              <line x1="10" y1="90" x2="290" y2="90" stroke="#29372E" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <path d="M 150 20 Q 165 90 150 160 Q 135 90 150 20" fill="rgba(53, 211, 154, 0.15)" stroke="#35D39A" stroke-width="2"/>
+              <line x1="60" y1="90" x2="60" y2="45" stroke="#D6B878" stroke-width="3"/>
+              <polygon points="60,40 56,48 64,48" fill="#D6B878"/>
+              <line x1="60" y1="45" x2="150" y2="45" stroke="#35D39A" stroke-width="1.5"/>
+              <line x1="150" y1="45" x2="240" y2="135" stroke="#35D39A" stroke-width="1.5"/>
+              <line x1="60" y1="45" x2="240" y2="135" stroke="#D6B878" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <line x1="240" y1="90" x2="240" y2="135" stroke="#35D39A" stroke-width="2.5"/>
+              <polygon points="240,140 236,132 244,132" fill="#35D39A"/>
+            </svg>
+          </div>
+          <div class="sim-body">
+            <div class="sim-badge-row">
+              <span class="badge badge-gold">Class 12</span>
+              <span class="badge badge-neutral">Optics</span>
+            </div>
+            <h3 class="sim-title" data-i18n="sim_optics_title">Ray Optics</h3>
+            <p class="sim-desc" data-i18n="sim_optics_desc">
+              Trace light rays across convex and concave lenses. Observe focal points, image formation, and real vs. virtual states.
+            </p>
+            <button class="btn btn-secondary sim-btn" data-sim-trigger="ray-optics">
+              <span data-i18n="btn_explore_sim">Explore Simulation</span>
+              <svg style="width: 14px; height: 14px;"><use href="#icon-launch"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulation 3: Wave Motion -->
+        <div class="simulation-card">
+          <div class="sim-preview-box">
+            <svg viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="180" fill="#101A15"/>
+              <line x1="20" y1="90" x2="280" y2="90" stroke="#29372E" stroke-width="1.5"/>
+              <path d="M 20 90 Q 52.5 30 85 90 T 150 90 T 215 90 T 280 90" stroke="#35D39A" stroke-width="2.5" fill="none"/>
+              <path d="M 20 90 Q 52.5 130 85 90 T 150 90 T 215 90 T 280 90" stroke="#D6B878" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+              <circle cx="85" cy="90" r="4" fill="#35D39A"/>
+              <circle cx="150" cy="90" r="4" fill="#35D39A"/>
+              <text x="75" y="112" fill="#A2B0A5" font-size="10" font-family="sans-serif">Node</text>
+              <text x="105" y="42" fill="#D6B878" font-size="10" font-family="sans-serif">Antinode (λ/2)</text>
+            </svg>
+          </div>
+          <div class="sim-body">
+            <div class="sim-badge-row">
+              <span class="badge badge-emerald">Class 11</span>
+              <span class="badge badge-neutral">Waves & SHM</span>
+            </div>
+            <h3 class="sim-title" data-i18n="sim_waves_title">Wave Motion</h3>
+            <p class="sim-desc" data-i18n="sim_waves_desc">
+              Simulate transverse wave propagation, harmonic frequencies, standing waves, and constructive/destructive interference.
+            </p>
+            <button class="btn btn-secondary sim-btn" data-sim-trigger="wave-motion">
+              <span data-i18n="btn_explore_sim">Explore Simulation</span>
+              <svg style="width: 14px; height: 14px;"><use href="#icon-launch"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulation 4: Electric Circuits -->
+        <div class="simulation-card">
+          <div class="sim-preview-box">
+            <svg viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="180" fill="#101A15"/>
+              <rect x="50" y="40" width="200" height="100" rx="8" fill="none" stroke="#29372E" stroke-width="2"/>
+              <line x1="50" y1="80" x2="50" y2="100" stroke="#101A15" stroke-width="6"/>
+              <line x1="38" y1="84" x2="62" y2="84" stroke="#D6B878" stroke-width="3"/>
+              <line x1="44" y1="94" x2="56" y2="94" stroke="#A2B0A5" stroke-width="2"/>
+              <text x="24" y="92" fill="#D6B878" font-size="11" font-weight="bold">V</text>
+              <line x1="120" y1="40" x2="180" y2="40" stroke="#101A15" stroke-width="6"/>
+              <path d="M 120 40 L 126 32 L 138 48 L 150 32 L 162 48 L 174 32 L 180 40" stroke="#35D39A" stroke-width="2.5" fill="none"/>
+              <text x="144" y="24" fill="#35D39A" font-size="11" font-weight="bold">R</text>
+              <circle cx="100" cy="40" r="3" fill="#35D39A"/>
+              <circle cx="210" cy="40" r="3" fill="#35D39A"/>
+              <circle cx="250" cy="90" r="3" fill="#35D39A"/>
+              <circle cx="150" cy="140" r="3" fill="#35D39A"/>
+              <text x="135" y="160" fill="#A2B0A5" font-size="10" font-family="sans-serif">I = V / R</text>
+            </svg>
+          </div>
+          <div class="sim-body">
+            <div class="sim-badge-row">
+              <span class="badge badge-gold">Class 12</span>
+              <span class="badge badge-neutral">Electricity</span>
+            </div>
+            <h3 class="sim-title" data-i18n="sim_circuits_title">Electric Circuits</h3>
+            <p class="sim-desc" data-i18n="sim_circuits_desc">
+              Assemble DC circuits with variable voltage and resistance. Visualize live electron drift and Kirchhoff's loop.
+            </p>
+            <button class="btn btn-secondary sim-btn" data-sim-trigger="electric-circuits">
+              <span data-i18n="btn_explore_sim">Explore Simulation</span>
+              <svg style="width: 14px; height: 14px;"><use href="#icon-launch"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulation 5: Photoelectric Effect -->
+        <div class="simulation-card">
+          <div class="sim-preview-box">
+            <svg viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="180" fill="#101A15"/>
+              <!-- Tube Envelope -->
+              <rect x="40" y="35" width="220" height="110" rx="20" stroke="#29372E" stroke-width="2" fill="rgba(22,33,27,0.6)"/>
+              <!-- Light Source Lamp -->
+              <circle cx="100" cy="20" r="12" fill="#BB9AF7"/>
+              <!-- Photon Beam Cone -->
+              <polygon points="94,28 106,28 85,80 75,80" fill="rgba(187,154,247,0.25)"/>
+              <line x1="100" y1="20" x2="80" y2="80" stroke="#BB9AF7" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <!-- Cathode Plate -->
+              <rect x="70" y="55" width="8" height="70" rx="2" fill="#D6B878"/>
+              <text x="56" y="94" fill="#D6B878" font-size="9" font-weight="bold">Cs</text>
+              <!-- Anode Plate -->
+              <rect x="220" y="55" width="8" height="70" rx="2" fill="#A2B0A5"/>
+              <text x="232" y="94" fill="#A2B0A5" font-size="9" font-weight="bold">+</text>
+              <!-- Photoelectrons escaping -->
+              <circle cx="95" cy="80" r="3.5" fill="#38BDF8"/>
+              <circle cx="125" cy="74" r="3.5" fill="#38BDF8"/>
+              <circle cx="155" cy="85" r="3.5" fill="#38BDF8"/>
+              <circle cx="185" cy="78" r="3.5" fill="#38BDF8"/>
+              <line x1="125" y1="74" x2="145" y2="74" stroke="#38BDF8" stroke-width="1.5"/>
+              <polygon points="147,74 142,71 142,77" fill="#38BDF8"/>
+              <text x="95" y="132" fill="#35D39A" font-size="10" font-family="sans-serif">K_max = hν - φ</text>
+            </svg>
+          </div>
+          <div class="sim-body">
+            <div class="sim-badge-row">
+              <span class="badge badge-gold">Class 12</span>
+              <span class="badge badge-emerald">Modern Physics</span>
+            </div>
+            <h3 class="sim-title" data-i18n="sim_photoelectric_title">Photoelectric Effect</h3>
+            <p class="sim-desc" data-i18n="sim_photoelectric_desc">
+              Simulate photon absorption, electron emission, target work functions, stopping potential, and I-V characteristic curves.
+            </p>
+            <button class="btn btn-secondary sim-btn" data-sim-trigger="photoelectric-effect">
+              <span data-i18n="btn_explore_sim">Explore Simulation</span>
+              <svg style="width: 14px; height: 14px;"><use href="#icon-launch"></use></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       Formula Hub & Formula of the Day Section
+       ========================================================================= -->
+  <section class="section" id="formulaHubSection" style="padding: var(--space-4xl) 0;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag gold" data-i18n="formula_tag">Mathematical Core</span>
+        <h2 class="section-title" data-i18n="formula_title">Formula of the Day</h2>
+        <p class="section-subtitle" data-i18n="formula_subtitle">
+          Unpack core physical formulas, understand each SI variable, and compute live scenarios.
+        </p>
+      </div>
+
+      <div class="formula-section-wrapper">
+        <div class="formula-card">
+          <div class="formula-header">
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <span class="badge badge-gold">Kinematics</span>
+              <span class="badge badge-emerald">Class 11 Baseline</span>
+            </div>
+            <span style="font-size: 0.8125rem; color: var(--text-muted); font-family: var(--font-mono);">NCERT § 3.6</span>
+          </div>
+
+          <!-- Formula Display in KaTeX -->
+          <div class="formula-main-display">
+            <div class="formula-math-rendered" id="featuredFormulaMath"></div>
+            <div class="formula-name">First Equation of Motion (Constant Acceleration)</div>
+          </div>
+
+          <!-- Physical Context Example -->
+          <div style="margin-bottom: 20px;">
+            <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6;">
+              <strong style="color: var(--text-primary);" data-i18n="formula_example_label">Physical Context & Example:</strong>
+              <span id="featuredFormulaExample">Loading context...</span>
+            </p>
+          </div>
+
+          <!-- Variables Breakdown Grid -->
+          <div class="variables-grid" id="featuredFormulaVars">
+            <!-- Dynamically populated by FormulaExplorer -->
+          </div>
+
+          <!-- Interactive Calculator Box -->
+          <div class="formula-calculator-box">
+            <div class="calc-title">
+              <svg style="width: 18px; height: 18px; color: var(--emerald-primary);"><use href="#icon-lightning"></use></svg>
+              <span data-i18n="calc_heading">Live Formula Parameter Calculator</span>
+            </div>
+
+            <div class="calc-inputs-row">
+              <div class="calc-field">
+                <label for="calcInputU">Initial Velocity (u in m/s)</label>
+                <input type="number" id="calcInputU" value="0" step="0.5" class="calc-input" />
+              </div>
+              <div class="calc-field">
+                <label for="calcInputA">Acceleration (a in m/s²)</label>
+                <input type="number" id="calcInputA" value="3.0" step="0.1" class="calc-input" />
+              </div>
+              <div class="calc-field">
+                <label for="calcInputT">Time Elapsed (t in s)</label>
+                <input type="number" id="calcInputT" value="5.0" step="0.5" min="0" class="calc-input" />
+              </div>
+              <div class="calc-result-box">
+                <span class="calc-result-label" data-i18n="calc_result">Calculated Result</span>
+                <span class="calc-result-value" id="calcResultVal">15.00 m/s</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formula Actions -->
+          <div class="formula-actions">
+            <button class="btn btn-primary" id="btnOpenFormulaExplorer">
+              <span data-i18n="btn_open_explorer">Open Formula Explorer</span>
+              <svg style="width: 16px; height: 16px;"><use href="#icon-launch"></use></svg>
+            </button>
+            <span style="font-size: 0.8125rem; color: var(--text-muted);">
+              Calculus-derived & dimensional analysis verified
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       Practice Zone Section (Diagnostic Problem Sets)
+       ========================================================================= -->
+  <section class="section" id="practiceSection" style="padding: var(--space-4xl) 0; background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="practice_tag">Diagnostic Mastery</span>
+        <h2 class="section-title" data-i18n="practice_title">Practice Zone</h2>
+        <p class="section-subtitle" data-i18n="practice_subtitle">
+          High-yield, syllabus-verified problem sets designed to reinforce conceptual clarity and test speed.
+        </p>
+      </div>
+
+      <div class="practice-grid">
+        <!-- Practice Card 1: JEE Advanced & Main -->
+        <div class="practice-card">
+          <div class="practice-icon">
+            <svg style="width: 26px; height: 26px;"><use href="#icon-target"></use></svg>
+          </div>
+          <h3 class="practice-title" data-i18n="practice_jee_title">JEE Physics Practice</h3>
+          <p class="practice-desc" data-i18n="practice_jee_desc">
+            Advanced multi-concept problems testing calculus-based mechanics, field theory, and analytical problem-solving.
+          </p>
+          <div class="practice-tags">
+            <span class="badge badge-gold">JEE Main</span>
+            <span class="badge badge-emerald">JEE Advanced</span>
+            <span class="badge badge-neutral">Multi-Concept</span>
+          </div>
+          <button class="btn btn-secondary w-full" data-practice-set="jee" style="width: 100%; margin-top: auto;">
+            <span data-i18n="btn_start_practice">Start Practice</span>
+            <svg style="width: 16px; height: 16px;"><use href="#icon-arrow-right"></use></svg>
+          </button>
+        </div>
+
+        <!-- Practice Card 2: NEET Medical Physics -->
+        <div class="practice-card">
+          <div class="practice-icon" style="color: var(--gold-champagne); border-color: var(--border-gold);">
+            <svg style="width: 26px; height: 26px;"><use href="#icon-neet"></use></svg>
+          </div>
+          <h3 class="practice-title" data-i18n="practice_neet_title">NEET Physics Practice</h3>
+          <p class="practice-desc" data-i18n="practice_neet_desc">
+            High-yield NCERT-aligned conceptual and numerical MCQs focused on accuracy, speed, and core fundamentals.
+          </p>
+          <div class="practice-tags">
+            <span class="badge badge-neutral">NEET Medical</span>
+            <span class="badge badge-gold">NCERT Direct</span>
+            <span class="badge badge-emerald">High Yield</span>
+          </div>
+          <button class="btn btn-secondary w-full" data-practice-set="neet" style="width: 100%; margin-top: auto;">
+            <span data-i18n="btn_start_practice">Start Practice</span>
+            <svg style="width: 16px; height: 16px;"><use href="#icon-arrow-right"></use></svg>
+          </button>
+        </div>
+
+        <!-- Practice Card 3: Concept Check Quizzes -->
+        <div class="practice-card">
+          <div class="practice-icon">
+            <svg style="width: 26px; height: 26px;"><use href="#icon-lightning"></use></svg>
+          </div>
+          <h3 class="practice-title" data-i18n="practice_concept_title">Concept Check Quizzes</h3>
+          <p class="practice-desc" data-i18n="practice_concept_desc">
+            Fast diagnostic questions that eliminate common physical misconceptions and test intuitive understanding.
+          </p>
+          <div class="practice-tags">
+            <span class="badge badge-emerald">Intuition Builders</span>
+            <span class="badge badge-neutral">Misconception Buster</span>
+            <span class="badge badge-gold">Fast Diagnostic</span>
+          </div>
+          <button class="btn btn-secondary w-full" data-practice-set="concept" style="width: 100%; margin-top: auto;">
+            <span data-i18n="btn_start_practice">Start Practice</span>
+            <svg style="width: 16px; height: 16px;"><use href="#icon-arrow-right"></use></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       Footer Section
+       ========================================================================= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: Platform Overview -->
+        <div class="footer-brand">
+          <div class="brand-logo" style="margin-bottom: 12px;">
+            <div class="brand-logo-icon">
+              <svg><use href="#icon-physix-logo"></use></svg>
+            </div>
+            <div class="brand-name">
+              <span>PHYSI</span><span class="accent">X</span>
+            </div>
+          </div>
+          <p data-i18n="footer_about_desc">
+            PHYSIX is a next-generation visual physics platform bridging classroom curriculum and computational experiment.
+          </p>
+          <div style="margin-top: 16px; font-size: 0.8125rem; color: var(--emerald-primary); font-family: var(--font-mono);">
+            Status: Fully Operational Educational Prototype
+          </div>
+        </div>
+
+        <!-- Col 2: Pathways & Syllabi -->
+        <div>
+          <h4 class="footer-title" data-i18n="footer_resources_title">Curriculum</h4>
+          <ul class="footer-links">
+            <li><a href="#coursesSection" class="footer-link" data-i18n="footer_link_syllabus">Class 11 & 12 Syllabus</a></li>
+            <li><a href="#simulationsSection" class="footer-link" data-i18n="footer_link_simlab">Simulation Lab</a></li>
+            <li><a href="#formulaHubSection" class="footer-link" data-i18n="footer_link_formulas">Formula Repository</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Competitive Exam Modules -->
+        <div>
+          <h4 class="footer-title">Examinations</h4>
+          <ul class="footer-links">
+            <li><a href="#practiceSection" class="footer-link" data-practice-set="jee" data-i18n="footer_link_jee">JEE Prep Modules</a></li>
+            <li><a href="#practiceSection" class="footer-link" data-practice-set="neet" data-i18n="footer_link_neet">NEET Prep Modules</a></li>
+            <li><a href="#practiceSection" class="footer-link" data-practice-set="concept">Concept Diagnostics</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Platform Information -->
+        <div>
+          <h4 class="footer-title" data-i18n="footer_legal_title">Information</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link" data-info-trigger="about" data-i18n="footer_link_about">About the Project</a></li>
+            <li><a href="#" class="footer-link" data-info-trigger="contact" data-i18n="footer_link_contact">Contact & Feedback</a></li>
+            <li><a href="#" class="footer-link" data-info-trigger="resources">NCERT Mapping Docs</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Bar -->
+      <div class="footer-bottom">
+        <p data-i18n="footer_copyright">
+          © 2026 PHYSIX Platform. Designed for Class 11, Class 12, JEE, and NEET students.
+        </p>
+        <div style="display: flex; gap: 16px;">
+          <span>Vanilla ES6 + HTML5 Canvas + KaTeX</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       Modal Overlays
+       ========================================================================= -->
+
+  <!-- 1. Chapter Inspector Modal (Class 11 & Class 12 Syllabus Breakdown) -->
+  <div class="modal-overlay" id="chapterModalOverlay" role="dialog" aria-modal="true" aria-labelledby="chapterModalTitle">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title" id="chapterModalTitle">Class Syllabus</h3>
+          <span class="badge badge-emerald" id="chapterModalBadge">Curriculum</span>
+        </div>
+        <button class="modal-close-btn" id="btnChapterModalClose" aria-label="Close syllabus modal">
+          <svg style="width: 18px; height: 18px;"><use href="#icon-close"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="chapterModalContent"></div>
+    </div>
+  </div>
+
+  <!-- 2. Simulation Lab Modal (Interactive Physics Engines) -->
+  <div class="modal-overlay" id="simModalOverlay" role="dialog" aria-modal="true" aria-labelledby="simModalTitle">
+    <div class="modal-container" style="max-width: 1040px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title" id="simModalTitle">Interactive Simulation</h3>
+          <span class="badge badge-emerald" id="simModalBadge">Physics Lab</span>
+        </div>
+        <button class="modal-close-btn" id="btnSimModalClose" aria-label="Close simulation modal">
+          <svg style="width: 18px; height: 18px;"><use href="#icon-close"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="simModalContainer" style="padding: 0;"></div>
+    </div>
+  </div>
+
+  <!-- 3. Formula Explorer Modal (Comprehensive Repository) -->
+  <div class="modal-overlay" id="formulaModalOverlay" role="dialog" aria-modal="true" aria-labelledby="formulaModalHeading">
+    <div class="modal-container" style="max-width: 860px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title" id="formulaModalHeading">Physics Formula Repository</h3>
+          <span class="badge badge-gold">Verified Formulas</span>
+        </div>
+        <button class="modal-close-btn" id="btnFormulaModalClose" aria-label="Close formula modal">
+          <svg style="width: 18px; height: 18px;"><use href="#icon-close"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="formulaListContainer"></div>
+    </div>
+  </div>
+
+  <!-- 4. Practice Quiz Modal (Interactive MCQ Test Engine) -->
+  <div class="modal-overlay" id="quizModalOverlay" role="dialog" aria-modal="true" aria-labelledby="quizModalTitle">
+    <div class="modal-container" style="max-width: 800px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title" id="quizModalTitle">Physics Practice Quiz</h3>
+          <span class="badge badge-emerald">Diagnostic Mode</span>
+        </div>
+        <button class="modal-close-btn" id="btnQuizModalClose" aria-label="Close quiz modal">
+          <svg style="width: 18px; height: 18px;"><use href="#icon-close"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="quizContainer"></div>
+    </div>
+  </div>
+
+  <!-- 5. Informational Modal (About, Contact, Resources) -->
+  <div class="modal-overlay" id="infoModalOverlay" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+    <div class="modal-container" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="infoModalTitle">Information</h3>
+        <button class="modal-close-btn" id="btnInfoModalClose" aria-label="Close info modal">
+          <svg style="width: 18px; height: 18px;"><use href="#icon-close"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="infoModalContent"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       JavaScript Libraries & Application Scripts
+       ========================================================================= -->
+  <!-- KaTeX JavaScript Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+NWtTlCXcAb9ndVQ4uxBvVNTCA9PeK1dUXypR042Ve2Trm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+  <!-- PHYSIX Application Modules (Loaded in dependency order) -->
+  <script src="js/data.js?v=2.6"></script>
+  <script src="js/i18n.js?v=2.6"></script>
+  <script src="js/celestial-hero.js?v=2.6"></script>
+  <script src="js/simulations/projectile.js?v=2.6"></script>
+  <script src="js/simulations/optics.js?v=2.6"></script>
+  <script src="js/simulations/waves.js?v=2.6"></script>
+  <script src="js/simulations/circuits.js?v=2.6"></script>
+  <script src="js/simulations/photoelectric.js?v=2.6"></script>
+  <script src="js/simulations/simulation-modal.js?v=2.6"></script>
+  <script src="js/formula-explorer.js?v=2.6"></script>
+  <script src="js/quiz.js?v=2.6"></script>
+  <script src="js/search.js?v=2.6"></script>
+  <script src="js/app.js?v=2.6"></script>
+</body>
+</html>
+
